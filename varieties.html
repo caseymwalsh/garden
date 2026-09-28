@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>20' Garden Layout — Plant Varieties</title>
+<style>
+  :root{
+    --soil:#4a3826;
+    --bed:#e8ddc7;
+    --ink:#2f2a20;
+    --tomato:#c9603f;
+    --pepper:#b8562f;
+    --cuke:#d9a441;
+    --squash:#c98a2b;
+    --root:#8a6d3b;
+    --peabean:#6f8f5a;
+    --onion:#c9a13a;
+    --inground:#7a8c4a;
+    --bucket:#b56b4f;
+    --asparagus:#5f7a52;
+    --table:#6b5540;
+    --compost:#5c4a38;
+    --path:#d8cdb4;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    padding:24px 16px 48px;
+    background:var(--bed);
+    font-family:'Courier New', ui-monospace, monospace;
+    color:var(--ink);
+  }
+  h1{
+    font-size:1.1rem;
+    margin:0 0 2px;
+    letter-spacing:0.02em;
+    color:#f0e9d8;
+  }
+  .sub{
+    font-size:0.78rem;
+    color:#c9bda0;
+    margin:0 0 18px;
+  }
+  .compass{
+    text-align:center;
+    font-size:0.7rem;
+    letter-spacing:0.15em;
+    color:#c9bda0;
+    margin-bottom:4px;
+  }
+  .board{
+    max-width:680px;
+    margin:0 auto;
+    background:var(--soil);
+    padding:14px;
+    border-radius:4px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.25);
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(20, 1fr);
+    grid-template-rows:repeat(20, 1fr);
+    gap:1px;
+    aspect-ratio:1/1;
+    background:var(--path);
+    border:2px solid var(--ink);
+    position:relative;
+  }
+  .grid-overlay{
+    grid-column:1/21;
+    grid-row:1/21;
+    pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.35) 1px, transparent 1px);
+    background-size:5% 5%;
+    z-index:5;
+  }
+  .zone{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-size:0.5rem;
+    line-height:1.15;
+    font-weight:700;
+    color:#fff;
+    padding:2px;
+    letter-spacing:0.01em;
+  }
+  .bed1a{ grid-column:1/5;  grid-row:1/5;  background:var(--tomato); }
+  .bed1b{ grid-column:1/5;  grid-row:5/9;  background:var(--pepper); }
+  .bed2a{ grid-column:6/10; grid-row:1/5;  background:var(--cuke); }
+  .bed2b{ grid-column:6/10; grid-row:5/9;  background:var(--squash); }
+  .bed3a{ grid-column:11/15;grid-row:1/5;  background:var(--root); border:2px dashed var(--onion); }
+  .bed3b{ grid-column:11/15;grid-row:5/9;  background:var(--peabean); }
+  .buckets{ grid-column:16/21; grid-row:1/9; background:var(--bucket); }
+  .inground{ grid-column:1/14; grid-row:11/21; background:var(--inground); }
+  .asparagus{ grid-column:16/21; grid-row:10/14; background:var(--asparagus); }
+  .garlicplot{ grid-column:16/21; grid-row:15/17; background:var(--onion); }
+  .compost{ grid-column:16/21; grid-row:18/21; background:var(--compost); }
+  .pathlabel{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.45rem;
+    color:#8a7d64;
+    writing-mode:vertical-rl;
+  }
+  .p1{ grid-column:5/6; grid-row:1/9; }
+  .p2{ grid-column:10/11;grid-row:1/9; }
+  .p3{ grid-column:1/21; grid-row:9/10; writing-mode:horizontal-tb; }
+  .divider{
+    background:var(--ink);
+    opacity:0.35;
+  }
+  .d1{ grid-column:1/5;  grid-row:5/6; }
+  .d2{ grid-column:6/10; grid-row:5/6; }
+  .d3{ grid-column:11/15;grid-row:5/6; }
+  .door-marker{
+    position:absolute;
+    left:-6px;
+    top:40%;
+    height:10%;
+    width:14px;
+    background:#e8b84b;
+    border:2px solid var(--ink);
+    z-index:10;
+  }
+  .door-label{
+    position:absolute;
+    left:-64px;
+    top:calc(45% - 0.6em);
+    font-size:0.5rem;
+    color:#e8b84b;
+    font-weight:700;
+    writing-mode:horizontal-tb;
+    width:52px;
+    text-align:right;
+    z-index:10;
+  }
+  .legend{
+    max-width:680px;
+    margin:18px auto 0;
+    font-size:0.7rem;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px 16px;
+  }
+  .legend div{ display:flex; align-items:center; gap:6px; }
+  .swatch{ width:12px; height:12px; flex:0 0 auto; border:1px solid rgba(0,0,0,0.3); }
+  table{
+    max-width:680px;
+    margin:20px auto 0;
+    width:100%;
+    border-collapse:collapse;
+    font-size:0.75rem;
+    background:#fffdf7;
+  }
+  th, td{
+    border:1px solid #cfc3a5;
+    padding:6px 8px;
+    text-align:left;
+  }
+  th{
+    background:#e8ddc7;
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+  }
+  tr.section td{
+    background:#efe6d0;
+    font-weight:700;
+  }
+  .note{
+    max-width:680px;
+    margin:16px auto 0;
+    font-size:0.75rem;
+    color:#4a3f2e;
+    background:#f4ecd8;
+    border-left:3px solid var(--tomato);
+    padding:10px 12px;
+  }
+  .scale{
+    max-width:680px;
+    margin:6px auto 0;
+    font-size:0.7rem;
+    color:#6b5f4a;
+    text-align:right;
+  }
+  .section-heading{
+    max-width:680px;
+    margin:40px auto 4px;
+    font-size:1.05rem;
+    text-align:center;
+    border-top:1px solid #cfc3a5;
+    padding-top:24px;
+  }
+  .diagram-intro{
+    max-width:680px;
+    margin:0 auto 18px;
+    font-size:0.78rem;
+    color:#6b5f4a;
+    text-align:center;
+  }
+  .diagram-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:20px;
+    max-width:1000px;
+    margin:0 auto;
+  }
+  .diagram-card{
+    background:#fffdf7;
+    border:1px solid #cfc3a5;
+    border-radius:6px;
+    padding:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  }
+  .diagram-card.wide{
+    grid-column:1 / -1;
+  }
+  .diagram-card h3{
+    font-size:0.82rem;
+    margin:0 0 8px;
+    text-align:center;
+  }
+  .diagram-svgwrap{
+    background:#4a3826;
+    padding:8px;
+    border-radius:4px;
+  }
+  .diagram-svgwrap svg{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+  .diagram-sub{
+    font-size:0.68rem;
+    color:#5c5442;
+    text-align:center;
+    margin:8px 0 0;
+    line-height:1.4;
+  }
+
+  .section-heading{
+    max-width:680px;
+    margin:40px auto 4px;
+    font-size:1.05rem;
+    text-align:center;
+    border-top:1px solid #cfc3a5;
+    padding-top:24px;
+  }
+  .section-intro{
+    max-width:680px;
+    margin:0 auto 18px;
+    font-size:0.78rem;
+    color:#6b5f4a;
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+
+<div class="board">
+  <h1>20' Garden Layout</h1>
+  <div class="sub">All raised beds split into 4×4. Each grid cell ≈ 1 sq ft. North at top. Door marked where the walking path meets the west edge.</div>
+  <div class="compass">N ↑</div>
+  <div class="grid">
+    <div class="zone bed1a">TOMATO<br>4×4<br>4 plants</div>
+    <div class="divider d1"></div>
+    <div class="zone bed1b">PEPPER + BASIL<br>4×4<br>6 pepper / 4 basil</div>
+    <div class="pathlabel p1">path</div>
+    <div class="zone bed2a">CUCUMBER (trellis)<br>4×4<br>4 plants</div>
+    <div class="divider d2"></div>
+    <div class="zone bed2b">ZUCCHINI / SUMMER SQUASH<br>4×4<br>2 plants</div>
+    <div class="pathlabel p2">path</div>
+    <div class="zone bed3a">CARROT · BEET · RADISH<br>4×4<br>30 / 16 / 32<br>+ 20 onion sets (edge)</div>
+    <div class="divider d3"></div>
+    <div class="zone bed3b">PEAS → BEANS<br>4×4<br>16 peas / 12 beans</div>
+    <div class="zone buckets">CONTAINERS<br>18 buckets<br>3 tomato · 4 pepper<br>5 bean · 1 eggplant · 1 green onion · 1 nasturtium · 2 kale · 1 marigold</div>
+    <div class="pathlabel p3">— walking path —</div>
+    <div class="zone inground">IN-GROUND CENTER<br>Corn 32 · Pole Beans 16 · Pumpkin 1 · Melon 4 · Potato 16</div>
+    <div class="zone asparagus">ASPARAGUS + STRAWBERRIES<br>10 crowns / 3 strawberry</div>
+    <div class="zone garlicplot">GARLIC<br>5×2<br>14 cloves</div>
+    <div class="zone compost">COMPOST<br>BIN</div>
+    <div class="grid-overlay"></div>
+    <div class="door-marker" title="Door"></div>
+    <div class="door-label">DOOR →</div>
+  </div>
+</div>
+
+<div class="legend">
+  <div><span class="swatch" style="background:var(--tomato)"></span>Bed 1a — Tomato</div>
+  <div><span class="swatch" style="background:var(--pepper)"></span>Bed 1b — Pepper / Basil</div>
+  <div><span class="swatch" style="background:var(--cuke)"></span>Bed 2a — Cucumber</div>
+  <div><span class="swatch" style="background:var(--squash)"></span>Bed 2b — Zucchini / Summer Squash</div>
+  <div><span class="swatch" style="background:var(--root); border:2px dashed var(--onion)"></span>Bed 3a — Carrot / Beet / Radish + onion edging</div>
+  <div><span class="swatch" style="background:var(--peabean)"></span>Bed 3b — Peas → Beans</div>
+  <div><span class="swatch" style="background:var(--bucket)"></span>Containers</div>
+  <div><span class="swatch" style="background:var(--inground)"></span>In-ground center</div>
+  <div><span class="swatch" style="background:var(--asparagus)"></span>Asparagus / strawberries</div>
+  <div><span class="swatch" style="background:var(--onion)"></span>Garlic plot</div>
+  <div><span class="swatch" style="background:var(--compost)"></span>Compost bin (south edge)</div>
+</div>
+
+
+<h2 class="section-heading">Variety Overview</h2>
+<div class="section-intro">At least 5 varieties per plant, organized by bed. Kept in sync with the main "20' Garden Layout" file.</div>
+
+<table>
+  <tr><th>Plant</th><th>Bed</th><th>Varieties</th></tr>
+  <tr class="section"><td colspan="3">Raised Beds</td></tr>
+  <tr><td>Tomato</td><td>1a</td><td>Early Girl, Celebrity, Better Boy, Roma, Brandywine, San Marzano, Sun Gold</td></tr>
+  <tr><td>Pepper</td><td>1b</td><td>California Wonder, King of the North, Carmen, Ace, Gypsy, Jalapeño</td></tr>
+  <tr><td>Basil</td><td>1b</td><td>Genovese, Sweet Basil, Thai Basil, Lemon Basil, Purple Ruffles, Cinnamon Basil</td></tr>
+  <tr><td>Cucumber</td><td>2a</td><td>Marketmore 76, Straight Eight, Diva, Boston Pickling, Suyo Long, National Pickling</td></tr>
+  <tr><td>Zucchini/Summer Squash</td><td>2b</td><td>Black Beauty, Costata Romanesco, Golden Zucchini, Zephyr, Cocozelle, Yellow Crookneck</td></tr>
+  <tr><td>Carrot</td><td>3a</td><td>Danvers 126, Nantes, Scarlet Nantes, Chantenay Red Core, Purple Haze, Little Finger</td></tr>
+  <tr><td>Beet</td><td>3a</td><td>Detroit Dark Red, Chioggia, Golden Beet, Bull's Blood, Cylindra, Early Wonder</td></tr>
+  <tr><td>Radish</td><td>3a</td><td>Cherry Belle, French Breakfast, White Icicle, Easter Egg, Watermelon Radish, Champion</td></tr>
+  <tr><td>Onion (edge, sets)</td><td>3a</td><td>Yellow Sweet Spanish, Red Baron, Walla Walla, Candy, White Sweet Spanish, Stuttgarter</td></tr>
+  <tr><td>Peas</td><td>3b</td><td>Sugar Snap, Green Arrow, Little Marvel, Oregon Sugar Pod II, Wando, Tom Thumb</td></tr>
+  <tr><td>Bush Beans</td><td>3b</td><td>Provider, Blue Lake 274, Contender, Royal Burgundy, Jade, Tendergreen</td></tr>
+  <tr class="section"><td colspan="3">In-Ground Center</td></tr>
+  <tr><td>Corn</td><td>In-ground</td><td>Silver Queen, Golden Bantam, Honey Select, Bodacious, Peaches and Cream, Incredible</td></tr>
+  <tr><td>Pole Beans</td><td>In-ground</td><td>Kentucky Wonder, Blue Lake Pole, Scarlet Runner, Cherokee Trail of Tears, Fortex, Rattlesnake</td></tr>
+  <tr><td>Pumpkin</td><td>In-ground</td><td>Jack Be Little, Small Sugar, Baby Pam, Connecticut Field, Wee-B-Little, New England Pie</td></tr>
+  <tr><td>Melon</td><td>In-ground</td><td>Minnesota Midget, Sugar Baby, Blacktail Mountain, Sarah's Choice, Hale's Best Jumbo, Honey Rock</td></tr>
+  <tr><td>Potato</td><td>In-ground</td><td>Yukon Gold, Red Pontiac, Kennebec, Russet Burbank, Norland, Adirondack Blue</td></tr>
+  <tr class="section"><td colspan="3">Asparagus / Perennial Bed</td></tr>
+  <tr><td>Asparagus</td><td>Asparagus bed</td><td>Jersey Knight, Jersey Giant, Mary Washington, Purple Passion, Jersey Supreme, UC 157</td></tr>
+  <tr><td>Strawberries</td><td>Asparagus bed</td><td>Earliglow, Honeoye, Jewel, Ozark Beauty, Seascape, Albion</td></tr>
+  <tr><td>Garlic</td><td>Garlic plot</td><td>German White, Music, Chesnok Red, Georgian Fire, Purple Glazer, Inchelium Red</td></tr>
+  <tr class="section"><td colspan="3">Containers (Buckets)</td></tr>
+  <tr><td>Tomato</td><td>Bucket</td><td>Patio, Bush Early Girl, Tumbling Tom, Better Bush, Celebrity Bush, Bushsteak</td></tr>
+  <tr><td>Pepper</td><td>Bucket</td><td>Mini Bell, Cayenne, Banana Pepper, Jalapeño, Shishito, Lunchbox</td></tr>
+  <tr><td>Bush Beans</td><td>Bucket</td><td>Provider, Tendercrop, Contender, Top Crop, Derby, Royal Burgundy</td></tr>
+  <tr><td>Eggplant</td><td>Bucket</td><td>Black Beauty, Fairy Tale, Ichiban, Patio Baby, Hansel, Rosa Bianca</td></tr>
+  <tr><td>Green Onion</td><td>Bucket</td><td>Evergreen Hardy White, Tokyo Long White, Parade, White Lisbon, Red Beard, Deep Purple</td></tr>
+  <tr><td>Nasturtium</td><td>Bucket</td><td>Alaska Mix, Jewel Mix, Empress of India, Whirlybird, Peach Melba, Tall Trailing Mix</td></tr>
+  <tr><td>Kale</td><td>Bucket</td><td>Dwarf Blue Curled, Lacinato (Dinosaur), Red Russian, Winterbor, Redbor, Premier</td></tr>
+  <tr><td>Marigold</td><td>Bucket</td><td>French Marigold, Bonanza, Sparky Mix, Durango, Crackerjack, Petite Mix</td></tr>
+</table>
+
+<h2 class="section-heading">Variety Details</h2>
+<div class="section-intro">Days to maturity (or type, for perennials/annual flowers) and notes for each variety above.</div>
+
+<table>
+  <tr><th>Variety</th><th>Days to Maturity / Type</th><th>Notes</th></tr>
+  <tr class="section"><td colspan="3">Tomato (Bed 1a)</td></tr>
+  <tr><td>Early Girl</td><td>~50 days</td><td>Reliable early producer, good for short seasons, indeterminate</td></tr>
+  <tr><td>Celebrity</td><td>~70 days</td><td>Disease-resistant, determinate, consistent yields</td></tr>
+  <tr><td>Better Boy</td><td>~75 days</td><td>Indeterminate, large fruit, classic slicer</td></tr>
+  <tr><td>Roma</td><td>~75 days</td><td>Paste/plum type, meaty, low moisture, great for sauce</td></tr>
+  <tr><td>Brandywine</td><td>~80-100 days</td><td>Heirloom, large pink beefsteak, exceptional flavor, needs sturdy staking</td></tr>
+  <tr><td>San Marzano</td><td>~80 days</td><td>Italian paste tomato, elongated, prized for sauce</td></tr>
+  <tr><td>Sun Gold</td><td>~57-65 days</td><td>Indeterminate cherry tomato, very sweet/fruity, vigorous vining habit — needs sturdy staking, not container-suited</td></tr>
+
+  <tr class="section"><td colspan="3">Tomato (Bucket)</td></tr>
+  <tr><td>Patio</td><td>~65-70 days</td><td>Compact bush type bred for containers, good yield for its size</td></tr>
+  <tr><td>Bush Early Girl</td><td>~55-60 days</td><td>Determinate version of Early Girl, container-friendly, early</td></tr>
+  <tr><td>Tumbling Tom</td><td>~50-60 days</td><td>Trailing/cascading habit, great for hanging or spilling over a bucket edge</td></tr>
+  <tr><td>Better Bush</td><td>~68-72 days</td><td>Compact determinate, full-size fruit on a small plant</td></tr>
+  <tr><td>Celebrity Bush</td><td>~70 days</td><td>Compact determinate version of Celebrity, disease-resistant</td></tr>
+  <tr><td>Bushsteak</td><td>~70-73 days</td><td>Large beefsteak-type fruit on a compact determinate plant</td></tr>
+
+  <tr class="section"><td colspan="3">Pepper (Bed 1b)</td></tr>
+  <tr><td>California Wonder</td><td>~75 days</td><td>Classic blocky bell, green to red</td></tr>
+  <tr><td>King of the North</td><td>~68 days</td><td>Bred for short/cool seasons, reliable in the North</td></tr>
+  <tr><td>Carmen</td><td>~60 (green) / 80 (red) days</td><td>Italian frying type, sweet, early</td></tr>
+  <tr><td>Ace</td><td>~50-55 days</td><td>Very early bell, compact plant, good for short seasons</td></tr>
+  <tr><td>Gypsy</td><td>~65 days</td><td>Sweet Italian type, high yield, early</td></tr>
+  <tr><td>Jalapeño</td><td>~70-80 days</td><td>Medium heat, thick-walled, prolific</td></tr>
+
+  <tr class="section"><td colspan="3">Pepper (Bucket)</td></tr>
+  <tr><td>Mini Bell</td><td>~60-65 days</td><td>Small sweet bells, compact plant, great for containers</td></tr>
+  <tr><td>Cayenne</td><td>~70-75 days</td><td>Thin, hot pepper, prolific, good for drying</td></tr>
+  <tr><td>Banana Pepper</td><td>~65-70 days</td><td>Mild, sweet-tangy, prolific, compact enough for buckets</td></tr>
+  <tr><td>Jalapeño</td><td>~70-80 days</td><td>Medium heat, thick-walled, prolific (same variety works well in a bucket too)</td></tr>
+  <tr><td>Shishito</td><td>~55-60 days</td><td>Mild Japanese pepper, occasional spicy one, great for blistering/searing</td></tr>
+  <tr><td>Lunchbox</td><td>~60-70 days</td><td>Snack-size sweet peppers, compact plant, mixed colors</td></tr>
+  <tr class="section"><td colspan="3">Basil</td></tr>
+  <tr><td>Genovese</td><td>~60-70 days</td><td>The classic pesto basil, large leaves</td></tr>
+  <tr><td>Sweet Basil</td><td>~60-70 days</td><td>Standard culinary type</td></tr>
+  <tr><td>Thai Basil</td><td>~60-70 days</td><td>Anise/licorice notes, purple stems</td></tr>
+  <tr><td>Lemon Basil</td><td>~60 days</td><td>Citrusy aroma, smaller leaves</td></tr>
+  <tr><td>Purple Ruffles</td><td>~65-75 days</td><td>Ornamental purple foliage, milder flavor</td></tr>
+  <tr><td>Cinnamon Basil</td><td>~65 days</td><td>Spicy-sweet aroma, reddish stems</td></tr>
+  <tr class="section"><td colspan="3">Cucumber</td></tr>
+  <tr><td>Marketmore 76</td><td>~65-70 days</td><td>Reliable slicer, disease-resistant</td></tr>
+  <tr><td>Straight Eight</td><td>~60-65 days</td><td>Old standard slicer, straight fruit</td></tr>
+  <tr><td>Diva</td><td>~58 days</td><td>All-female flowers (no pollination needed), burpless, great flavor</td></tr>
+  <tr><td>Boston Pickling</td><td>~55 days</td><td>Classic pickler, prolific</td></tr>
+  <tr><td>Suyo Long</td><td>~60-65 days</td><td>Asian type, long ribbed fruit, crisp, heat-tolerant</td></tr>
+  <tr><td>National Pickling</td><td>~55 days</td><td>Bred specifically for pickling, high yield</td></tr>
+  <tr class="section"><td colspan="3">Zucchini/Summer Squash</td></tr>
+  <tr><td>Black Beauty</td><td>~50-55 days</td><td>Classic dark green zucchini</td></tr>
+  <tr><td>Costata Romanesco</td><td>~55-60 days</td><td>Italian heirloom, ribbed, nutty flavor</td></tr>
+  <tr><td>Golden Zucchini</td><td>~50-55 days</td><td>Bright yellow, mild flavor</td></tr>
+  <tr><td>Zephyr</td><td>~50 days</td><td>Yellow with pale green tip, tender</td></tr>
+  <tr><td>Cocozelle</td><td>~55 days</td><td>Italian heirloom, striped, good flavor</td></tr>
+  <tr><td>Yellow Crookneck</td><td>~50-55 days</td><td>Curved neck, bumpy skin, buttery flavor</td></tr>
+  <tr class="section"><td colspan="3">Carrot</td></tr>
+  <tr><td>Danvers 126</td><td>~75 days</td><td>Tolerates heavy soil well, good storage</td></tr>
+  <tr><td>Nantes</td><td>~65-70 days</td><td>Sweet, cylindrical, tender</td></tr>
+  <tr><td>Scarlet Nantes</td><td>~68 days</td><td>Classic sweet Nantes type</td></tr>
+  <tr><td>Chantenay Red Core</td><td>~70 days</td><td>Short/blocky, good for clay-ish soil</td></tr>
+  <tr><td>Purple Haze</td><td>~70 days</td><td>Purple skin, orange interior, novelty + flavor</td></tr>
+  <tr><td>Little Finger</td><td>~55-60 days</td><td>Baby carrot type, very fast</td></tr>
+  <tr class="section"><td colspan="3">Beet</td></tr>
+  <tr><td>Detroit Dark Red</td><td>~60 days</td><td>Classic deep red, reliable</td></tr>
+  <tr><td>Chioggia</td><td>~55-60 days</td><td>Italian heirloom, candy-striped interior</td></tr>
+  <tr><td>Golden Beet</td><td>~55-60 days</td><td>Golden/orange flesh, milder & sweeter, doesn't bleed</td></tr>
+  <tr><td>Bull's Blood</td><td>~35-58 days</td><td>Grown for dark red foliage as well as roots</td></tr>
+  <tr><td>Cylindra</td><td>~60 days</td><td>Elongated shape, uniform slices</td></tr>
+  <tr><td>Early Wonder</td><td>~50-55 days</td><td>Fast-maturing, good for succession</td></tr>
+  <tr class="section"><td colspan="3">Radish</td></tr>
+  <tr><td>Cherry Belle</td><td>~22-28 days</td><td>Classic round red, fast, mild</td></tr>
+  <tr><td>French Breakfast</td><td>~25 days</td><td>Elongated red with white tip, mild</td></tr>
+  <tr><td>White Icicle</td><td>~25-30 days</td><td>Long white root, spicier</td></tr>
+  <tr><td>Easter Egg</td><td>~25-30 days</td><td>Mixed colors (purple, pink, white)</td></tr>
+  <tr><td>Watermelon Radish</td><td>~60 days</td><td>Green outside, hot pink inside, slower/larger</td></tr>
+  <tr><td>Champion</td><td>~28 days</td><td>Large round red, slow to get pithy</td></tr>
+  <tr class="section"><td colspan="3">Onion (sets)</td></tr>
+  <tr><td>Yellow Sweet Spanish</td><td>~100-120 days</td><td>Large, mild, good keeper</td></tr>
+  <tr><td>Red Baron</td><td>~110 days</td><td>Red skin, sweet-mild, good storage</td></tr>
+  <tr><td>Walla Walla</td><td>~100-125 days</td><td>Very sweet, poor storage, eat fresh</td></tr>
+  <tr><td>Candy</td><td>~85 days</td><td>Sweet, fast-maturing, both fresh and short storage</td></tr>
+  <tr><td>White Sweet Spanish</td><td>~110 days</td><td>Mild, large, good for slicing</td></tr>
+  <tr><td>Stuttgarter</td><td>~95-100 days</td><td>Reliable, good storage, classic set-onion</td></tr>
+  <tr class="section"><td colspan="3">Peas</td></tr>
+  <tr><td>Sugar Snap</td><td>~62-70 days</td><td>Edible pod, sweet, needs trellis</td></tr>
+  <tr><td>Green Arrow</td><td>~68 days</td><td>Shelling pea, high yield, disease-resistant</td></tr>
+  <tr><td>Little Marvel</td><td>~60-65 days</td><td>Compact shelling pea, heavy producer</td></tr>
+  <tr><td>Oregon Sugar Pod II</td><td>~68 days</td><td>Snow pea, disease-resistant, flat pods</td></tr>
+  <tr><td>Wando</td><td>~68-70 days</td><td>Heat-tolerant shelling pea, good for variable spring weather</td></tr>
+  <tr><td>Tom Thumb</td><td>~50-55 days</td><td>Very compact/dwarf, good for small spaces</td></tr>
+  <tr class="section"><td colspan="3">Bush Beans (Bed 3b)</td></tr>
+  <tr><td>Provider</td><td>~50 days</td><td>Extremely reliable, cold-tolerant for beans, great first choice</td></tr>
+  <tr><td>Blue Lake 274</td><td>~55-60 days</td><td>Classic green bean, heavy yields, good for canning</td></tr>
+  <tr><td>Contender</td><td>~45-50 days</td><td>Very early, cold-tolerant</td></tr>
+  <tr><td>Royal Burgundy</td><td>~55 days</td><td>Purple pods (turn green when cooked), easy to spot for picking</td></tr>
+  <tr><td>Jade</td><td>~55-60 days</td><td>Long straight pods, holds quality well</td></tr>
+  <tr><td>Tendergreen</td><td>~55 days</td><td>Stringless, classic flavor</td></tr>
+
+  <tr class="section"><td colspan="3">Bush Beans (Bucket)</td></tr>
+  <tr><td>Provider</td><td>~50 days</td><td>Extremely reliable, cold-tolerant for beans, great first choice (same variety works well in a bucket too)</td></tr>
+  <tr><td>Tendercrop</td><td>~55 days</td><td>Vigorous, disease-resistant</td></tr>
+  <tr><td>Contender</td><td>~45-50 days</td><td>Very early, cold-tolerant</td></tr>
+  <tr><td>Top Crop</td><td>~48-50 days</td><td>Early, heavy-yielding, AAS winner</td></tr>
+  <tr><td>Derby</td><td>~57 days</td><td>Long slender pods, attractive, high yield</td></tr>
+  <tr><td>Royal Burgundy</td><td>~55 days</td><td>Purple pods (turn green when cooked), easy to spot for picking</td></tr>
+  <tr class="section"><td colspan="3">Corn</td></tr>
+  <tr><td>Silver Queen</td><td>~90-92 days</td><td>White, classic Southern favorite, needs a longer season — tight fit for your frost window</td></tr>
+  <tr><td>Golden Bantam</td><td>~78-83 days</td><td>Heirloom yellow, shorter season, reliable</td></tr>
+  <tr><td>Honey Select</td><td>~80 days</td><td>Bicolor, very sweet (SE hybrid), popular modern variety</td></tr>
+  <tr><td>Bodacious</td><td>~75-80 days</td><td>Bicolor, sweet, widely adapted</td></tr>
+  <tr><td>Peaches and Cream</td><td>~70-83 days</td><td>Bicolor, good cold-soil germination, good northern choice</td></tr>
+  <tr><td>Incredible</td><td>~85 days</td><td>Yellow, very sweet, large ears</td></tr>
+  <tr class="section"><td colspan="3">Pole Beans</td></tr>
+  <tr><td>Kentucky Wonder</td><td>~65-70 days</td><td>Classic heirloom pole bean, vigorous</td></tr>
+  <tr><td>Blue Lake Pole</td><td>~60-65 days</td><td>Stringless, heavy yields, good flavor</td></tr>
+  <tr><td>Scarlet Runner</td><td>~65-75 days</td><td>Dual-purpose (ornamental red flowers + edible), good pollinator attractor</td></tr>
+  <tr><td>Cherokee Trail of Tears</td><td>~85-90 days</td><td>Native heirloom, purple pods, good dried too</td></tr>
+  <tr><td>Fortex</td><td>~60-70 days</td><td>Extra-long French filet type, stays tender large</td></tr>
+  <tr><td>Rattlesnake</td><td>~70-80 days</td><td>Purple-streaked pods, heat-tolerant</td></tr>
+  <tr class="section"><td colspan="3">Pumpkin</td></tr>
+  <tr><td>Jack Be Little</td><td>~85-95 days</td><td>Miniature (palm-sized), decorative + edible</td></tr>
+  <tr><td>Small Sugar</td><td>~100-105 days</td><td>Classic pie pumpkin, sweet flesh</td></tr>
+  <tr><td>Baby Pam</td><td>~100-105 days</td><td>Sweet pie type, uniform small fruit</td></tr>
+  <tr><td>Connecticut Field</td><td>~100-115 days</td><td>Traditional large jack-o-lantern type — likely too long-season for your plot</td></tr>
+  <tr><td>Wee-B-Little</td><td>~90-95 days</td><td>Tiny (baseball-sized), fast, great for a small hill</td></tr>
+  <tr><td>New England Pie</td><td>~100-105 days</td><td>Classic baking pumpkin, sweet and smooth</td></tr>
+  <tr class="section"><td colspan="3">Melon</td></tr>
+  <tr><td>Minnesota Midget</td><td>~60-70 days</td><td>Bred for short seasons, compact vines, best bet for this plot</td></tr>
+  <tr><td>Sugar Baby</td><td>~75-80 days</td><td>Icebox-size watermelon, compact vines</td></tr>
+  <tr><td>Blacktail Mountain</td><td>~70-75 days</td><td>Watermelon bred in Idaho for short/cool seasons</td></tr>
+  <tr><td>Sarah's Choice</td><td>~75-80 days</td><td>Cantaloupe hybrid, good disease resistance</td></tr>
+  <tr><td>Hale's Best Jumbo</td><td>~80-90 days</td><td>Classic cantaloupe, needs a longer season — a stretch for your window</td></tr>
+  <tr><td>Honey Rock</td><td>~80-85 days</td><td>Sweet orange-fleshed cantaloupe, heirloom</td></tr>
+  <tr class="section"><td colspan="3">Potato</td></tr>
+  <tr><td>Yukon Gold</td><td>~80-90 days</td><td>All-purpose, buttery yellow flesh, very popular</td></tr>
+  <tr><td>Red Pontiac</td><td>~90-100 days</td><td>Red skin, white flesh, good keeper</td></tr>
+  <tr><td>Kennebec</td><td>~80-100 days</td><td>High-yielding, great for frying/baking</td></tr>
+  <tr><td>Russet Burbank</td><td>~90-120 days</td><td>The classic baking potato, longer season</td></tr>
+  <tr><td>Norland</td><td>~65-75 days</td><td>Early red-skinned, good for short seasons</td></tr>
+  <tr><td>Adirondack Blue</td><td>~80-90 days</td><td>Blue flesh throughout, novelty + nutrition (anthocyanins)</td></tr>
+  <tr class="section"><td colspan="3">Asparagus</td></tr>
+  <tr><td>Jersey Knight</td><td>perennial</td><td>All-male hybrid (no volunteer seedlings), high yield, rust-resistant</td></tr>
+  <tr><td>Jersey Giant</td><td>perennial</td><td>Vigorous, cold-hardy, good for northern climates</td></tr>
+  <tr><td>Mary Washington</td><td>perennial</td><td>Classic heirloom, widely adapted</td></tr>
+  <tr><td>Purple Passion</td><td>perennial</td><td>Purple spears (sweeter, less fibrous), striking color</td></tr>
+  <tr><td>Jersey Supreme</td><td>perennial</td><td>Early, high-yielding hybrid</td></tr>
+  <tr><td>UC 157</td><td>perennial</td><td>Bred for uniform spears, good producer</td></tr>
+  <tr class="section"><td colspan="3">Strawberries</td></tr>
+  <tr><td>Earliglow</td><td>June-bearing</td><td>Early, excellent flavor, classic favorite</td></tr>
+  <tr><td>Honeoye</td><td>June-bearing</td><td>Very cold-hardy, high-yielding, bred in NY — great fit for CNY</td></tr>
+  <tr><td>Jewel</td><td>June-bearing</td><td>Large fruit, good flavor, popular in Northeast</td></tr>
+  <tr><td>Ozark Beauty</td><td>Everbearing</td><td>Produces spring through fall</td></tr>
+  <tr><td>Seascape</td><td>Day-neutral</td><td>Consistent production all season</td></tr>
+  <tr><td>Albion</td><td>Day-neutral</td><td>Large, sweet, very popular commercial/home variety</td></tr>
+  <tr class="section"><td colspan="3">Garlic</td></tr>
+  <tr><td>German White</td><td>Hardneck</td><td>Very cold-hardy, classic for northern climates</td></tr>
+  <tr><td>Music</td><td>Hardneck</td><td>Large cloves, easy to peel, very popular in cold climates</td></tr>
+  <tr><td>Chesnok Red</td><td>Hardneck</td><td>Purple-striped, great for roasting</td></tr>
+  <tr><td>Georgian Fire</td><td>Hardneck</td><td>Spicy raw, mellows when cooked</td></tr>
+  <tr><td>Purple Glazer</td><td>Hardneck</td><td>Beautiful glossy purple wrappers, good flavor</td></tr>
+  <tr><td>Inchelium Red</td><td>Softneck</td><td>Mild, good storage, less common in extreme cold but workable in 5b</td></tr>
+  <tr class="section"><td colspan="3">Eggplant</td></tr>
+  <tr><td>Black Beauty</td><td>~70-85 days</td><td>Classic large purple-black eggplant</td></tr>
+  <tr><td>Fairy Tale</td><td>~50-65 days</td><td>Small striped fruit, very productive, great for containers</td></tr>
+  <tr><td>Ichiban</td><td>~55-65 days</td><td>Japanese type, long slender fruit, few seeds</td></tr>
+  <tr><td>Patio Baby</td><td>~45-50 days</td><td>Compact plant bred specifically for containers</td></tr>
+  <tr><td>Hansel</td><td>~55-60 days</td><td>Finger-sized fruit, very productive, container-friendly</td></tr>
+  <tr><td>Rosa Bianca</td><td>~75-85 days</td><td>Italian heirloom, pink-lavender, mild flavor</td></tr>
+  <tr class="section"><td colspan="3">Green Onion</td></tr>
+  <tr><td>Evergreen Hardy White</td><td>~60-65 days</td><td>Very cold-hardy, can overwinter</td></tr>
+  <tr><td>Tokyo Long White</td><td>~60-65 days</td><td>Long white shanks, mild</td></tr>
+  <tr><td>Parade</td><td>~60 days</td><td>Uniform, disease-resistant</td></tr>
+  <tr><td>White Lisbon</td><td>~60-65 days</td><td>Classic heirloom scallion</td></tr>
+  <tr><td>Red Beard</td><td>~60-65 days</td><td>Red-tinted shanks, mild-sweet</td></tr>
+  <tr><td>Deep Purple</td><td>~60-70 days</td><td>Strong purple coloring, holds color when cooked</td></tr>
+  <tr class="section"><td colspan="3">Nasturtium</td></tr>
+  <tr><td>Alaska Mix</td><td>annual</td><td>Variegated foliage, mixed flower colors</td></tr>
+  <tr><td>Jewel Mix</td><td>annual</td><td>Compact, mixed bright colors, good bloomer</td></tr>
+  <tr><td>Empress of India</td><td>annual</td><td>Deep red flowers, blue-green foliage, striking</td></tr>
+  <tr><td>Whirlybird</td><td>annual</td><td>Upward-facing flowers (easier to see), no spurs</td></tr>
+  <tr><td>Peach Melba</td><td>annual</td><td>Cream/yellow petals with red-orange center</td></tr>
+  <tr><td>Tall Trailing Mix</td><td>annual</td><td>Vining habit, good for spilling over container edges</td></tr>
+  <tr class="section"><td colspan="3">Kale</td></tr>
+  <tr><td>Dwarf Blue Curled</td><td>biennial (grown as annual)</td><td>Compact, classic curly kale, very cold-hardy</td></tr>
+  <tr><td>Lacinato (Dinosaur)</td><td>biennial (grown as annual)</td><td>Dark blue-green, crinkled leaves, popular for cooking</td></tr>
+  <tr><td>Red Russian</td><td>biennial (grown as annual)</td><td>Flat, frilly-edged, reddish stems, tender</td></tr>
+  <tr><td>Winterbor</td><td>biennial (grown as annual)</td><td>Very cold-hardy, vigorous curly type</td></tr>
+  <tr><td>Redbor</td><td>biennial (grown as annual)</td><td>Deep purple-red curly leaves, ornamental + edible</td></tr>
+  <tr><td>Premier</td><td>biennial (grown as annual)</td><td>Fast-growing, good bolt resistance</td></tr>
+  <tr class="section"><td colspan="3">Marigold</td></tr>
+  <tr><td>French Marigold</td><td>annual</td><td>Compact, classic small blooms, good pest-deterrent companion</td></tr>
+  <tr><td>Bonanza</td><td>annual</td><td>Compact, large flowers for its size, early bloomer</td></tr>
+  <tr><td>Sparky Mix</td><td>annual</td><td>Bicolor blooms (yellow/red), compact</td></tr>
+  <tr><td>Durango</td><td>annual</td><td>Vigorous, large flowers, wide color range</td></tr>
+  <tr><td>Crackerjack</td><td>annual</td><td>Tall African type, very large blooms</td></tr>
+  <tr><td>Petite Mix</td><td>annual</td><td>Dwarf, ideal for small containers</td></tr>
+</table>
+
+
+</body>
+</html>

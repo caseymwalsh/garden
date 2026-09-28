@@ -97,7 +97,7 @@
   .buckets{ grid-column:16/21; grid-row:1/9; background:var(--bucket); }
   .inground{ grid-column:1/14; grid-row:11/21; background:var(--inground); }
   .asparagus{ grid-column:16/21; grid-row:10/14; background:var(--asparagus); }
-  .worktable{ grid-column:16/21; grid-row:15/17; background:var(--table); }
+  .garlicplot{ grid-column:16/21; grid-row:15/17; background:var(--onion); }
   .compost{ grid-column:16/21; grid-row:18/21; background:var(--compost); }
   .pathlabel{
     display:flex;
@@ -262,11 +262,11 @@
     <div class="zone bed3a">CARROT · BEET · RADISH<br>4×4<br>30 / 16 / 32<br>+ 20 onion sets (edge)</div>
     <div class="divider d3"></div>
     <div class="zone bed3b">PEAS → BEANS<br>4×4<br>16 peas / 12 beans</div>
-    <div class="zone buckets">CONTAINERS<br>18 buckets<br>5 tomato · 4 pepper<br>5 bean · 1 basil · 2 lettuce · 1 rhubarb</div>
+    <div class="zone buckets">CONTAINERS<br>18 buckets<br>3 tomato · 4 pepper<br>5 bean · 1 eggplant · 1 green onion · 1 nasturtium · 2 kale · 1 marigold</div>
     <div class="pathlabel p3">— walking path —</div>
     <div class="zone inground">IN-GROUND CENTER<br>Corn 32 · Pole Beans 16 · Pumpkin 1 · Melon 4 · Potato 16</div>
-    <div class="zone asparagus">ASPARAGUS + STRAWBERRIES<br>5 crowns / 3 strawberry<br>+ Garlic 14 (edge)</div>
-    <div class="zone worktable">POTTING TABLE<br>5×2</div>
+    <div class="zone asparagus">ASPARAGUS + STRAWBERRIES<br>10 crowns / 3 strawberry</div>
+    <div class="zone garlicplot">GARLIC<br>5×2<br>14 cloves</div>
     <div class="zone compost">COMPOST<br>BIN</div>
     <div class="grid-overlay"></div>
     <div class="door-marker" title="Door"></div>
@@ -283,8 +283,8 @@
   <div><span class="swatch" style="background:var(--peabean)"></span>Bed 3b — Peas → Beans</div>
   <div><span class="swatch" style="background:var(--bucket)"></span>Containers</div>
   <div><span class="swatch" style="background:var(--inground)"></span>In-ground center</div>
-  <div><span class="swatch" style="background:var(--asparagus)"></span>Asparagus / strawberries / garlic</div>
-  <div><span class="swatch" style="background:var(--table)"></span>Potting table</div>
+  <div><span class="swatch" style="background:var(--asparagus)"></span>Asparagus / strawberries</div>
+  <div><span class="swatch" style="background:var(--onion)"></span>Garlic plot</div>
   <div><span class="swatch" style="background:var(--compost)"></span>Compost bin (south edge)</div>
 </div>
 
@@ -315,12 +315,14 @@
   <tr><td>Bed 3b</td><td>Bush Beans</td><td>12</td><td>summer succession, after peas pulled</td></tr>
 
   <tr class="section"><td colspan="4">Container Zone (18 buckets)</td></tr>
-  <tr><td>Buckets</td><td>Tomato</td><td>5 buckets (1 plant ea.)</td><td>bush/determinate types</td></tr>
-  <tr><td>Buckets</td><td>Rhubarb</td><td>1 bucket</td><td>needs a large container (15+ gal ideally); a 5-gal bucket will limit long-term size and yield</td></tr>
+  <tr><td>Buckets</td><td>Tomato</td><td>3 buckets (1 plant ea.)</td><td>bush/determinate types</td></tr>
+  <tr><td>Buckets</td><td>Eggplant</td><td>1 bucket</td><td>—</td></tr>
+  <tr><td>Buckets</td><td>Green onion (scallions)</td><td>1 bucket</td><td>—</td></tr>
   <tr><td>Buckets</td><td>Pepper</td><td>4 buckets (1 plant ea.)</td><td>—</td></tr>
   <tr><td>Buckets</td><td>Bush Beans</td><td>5 buckets (3 plants ea. = 15)</td><td>—</td></tr>
-  <tr><td>Buckets</td><td>Basil</td><td>1 bucket</td><td>—</td></tr>
-  <tr><td>Buckets</td><td>Lettuce</td><td>2 buckets</td><td>container-friendly, quick-growing</td></tr>
+  <tr><td>Buckets</td><td>Nasturtium</td><td>1 bucket</td><td>trailing habit, edible flowers/leaves, pest-deterrent companion</td></tr>
+  <tr><td>Buckets</td><td>Kale</td><td>2 buckets</td><td>cool-season, tolerates light frost</td></tr>
+  <tr><td>Buckets</td><td>Marigold</td><td>1 bucket</td><td>pest-deterrent companion, easy annual flower</td></tr>
 
   <tr class="section"><td colspan="4">In-Ground Center (~13×10 ft)</td></tr>
   <tr><td>In-ground</td><td>Corn</td><td>32</td><td>block, 4 rows × 8, ~12 in apart</td></tr>
@@ -330,12 +332,11 @@
   <tr><td>In-ground</td><td>Potato</td><td>16 seed pieces</td><td>2 rows × 8, ~12 in apart</td></tr>
 
   <tr class="section"><td colspan="4">Asparagus / Perennial Bed (3×4)</td></tr>
-  <tr><td>Asparagus bed</td><td>Asparagus crowns</td><td>5</td><td>~12-18 in apart</td></tr>
+  <tr><td>Asparagus bed</td><td>Asparagus crowns</td><td>10</td><td>2 rows of 5, ~12 in apart within row, rows 18 in apart</td></tr>
   <tr><td>Asparagus bed</td><td>Strawberries (June-bearing)</td><td>3</td><td>~12 in apart, edges of bed</td></tr>
-  <tr><td>Asparagus bed</td><td>Garlic</td><td>14 cloves</td><td>fall-planted, along one edge, ~6 in apart</td></tr>
 
-  <tr class="section"><td colspan="4">Potting Table (5×2)</td></tr>
-  <tr><td>Potting table</td><td>—</td><td>—</td><td>Work surface for potting up starts, staging tools; set between asparagus bed and compost bin</td></tr>
+  <tr class="section"><td colspan="4">Garlic Plot (5×2)</td></tr>
+  <tr><td>Garlic plot</td><td>Garlic</td><td>14 cloves</td><td>fall-planted, 2 rows of 7, ~8-9 in apart</td></tr>
 </table>
 
 <table>
@@ -346,9 +347,10 @@
   <tr><th>Timing</th><th>Crop</th><th>Zone</th><th>Action</th></tr>
 
   <tr class="section"><td colspan="4">Indoors, 6-8 weeks before last frost (late March-early April)</td></tr>
-  <tr><td>Late Mar-early Apr</td><td>Tomato</td><td>Bed 1a + 6 buckets</td><td>Start seed indoors</td></tr>
+  <tr><td>Late Mar-early Apr</td><td>Tomato</td><td>Bed 1a + 3 buckets</td><td>Start seed indoors</td></tr>
   <tr><td>Late Mar-early Apr</td><td>Pepper</td><td>Bed 1b + 4 buckets</td><td>Start seed indoors</td></tr>
-  <tr><td>Late Mar-early Apr</td><td>Basil</td><td>Bed 1b + basil bucket</td><td>Start seed indoors (or direct sow after frost)</td></tr>
+  <tr><td>Late Mar-early Apr</td><td>Basil</td><td>Bed 1b</td><td>Start seed indoors (or direct sow after frost)</td></tr>
+  <tr><td>Late Mar-early Apr</td><td>Eggplant</td><td>Eggplant bucket</td><td>Start seed indoors</td></tr>
 
   <tr class="section"><td colspan="4">Direct sow, as soon as soil can be worked (mid-late April)</td></tr>
   <tr><td>Mid-late Apr</td><td>Peas</td><td>Bed 3b</td><td>Direct sow along trellis edge</td></tr>
@@ -356,15 +358,16 @@
   <tr><td>Mid-late Apr</td><td>Beet</td><td>Bed 3a</td><td>Direct sow</td></tr>
   <tr><td>Mid-late Apr</td><td>Radish</td><td>Bed 3a</td><td>Direct sow</td></tr>
   <tr><td>Mid-late Apr</td><td>Onion sets</td><td>Bed 3a (edge)</td><td>Plant sets around bed perimeter</td></tr>
-  <tr><td>Mid-late Apr</td><td>Lettuce</td><td>Lettuce buckets (2)</td><td>Direct sow, cool-season crop</td></tr>
+  <tr><td>Mid-late Apr</td><td>Kale</td><td>Kale buckets (2)</td><td>Direct sow, tolerates light frost</td></tr>
   <tr><td>Early-mid Apr</td><td>Asparagus crowns</td><td>Asparagus bed</td><td>Plant crowns (one-time, perennial)</td></tr>
   <tr><td>Early-mid Apr</td><td>Strawberry crowns</td><td>Asparagus bed</td><td>Plant bare-root crowns (one-time, perennial)</td></tr>
-  <tr><td>Early-mid Apr</td><td>Rhubarb</td><td>Rhubarb bucket</td><td>Plant bare-root crown/division (one-time, perennial); needs a large container long-term</td></tr>
+  <tr><td>Mid-late Apr</td><td>Green onion (sets or seed)</td><td>Green onion bucket</td><td>Direct sow / plant sets</td></tr>
 
   <tr class="section"><td colspan="4">After last frost, transplant/direct sow (late May-early June)</td></tr>
-  <tr><td>Late May</td><td>Tomato</td><td>Bed 1a + 6 buckets</td><td>Transplant outdoors</td></tr>
+  <tr><td>Late May</td><td>Tomato</td><td>Bed 1a + 3 buckets</td><td>Transplant outdoors</td></tr>
   <tr><td>Late May</td><td>Pepper</td><td>Bed 1b + 4 buckets</td><td>Transplant outdoors</td></tr>
-  <tr><td>Late May</td><td>Basil</td><td>Bed 1b + basil bucket</td><td>Transplant outdoors</td></tr>
+  <tr><td>Late May</td><td>Basil</td><td>Bed 1b</td><td>Transplant outdoors</td></tr>
+  <tr><td>Late May</td><td>Eggplant</td><td>Eggplant bucket</td><td>Transplant outdoors</td></tr>
   <tr><td>Late May</td><td>Cucumber</td><td>Bed 2a</td><td>Direct sow or transplant, set up trellis</td></tr>
   <tr><td>Late May</td><td>Zucchini / Summer Squash</td><td>Bed 2b</td><td>Direct sow or transplant</td></tr>
   <tr><td>Late May</td><td>Corn</td><td>In-ground center</td><td>Direct sow in block</td></tr>
@@ -373,25 +376,30 @@
   <tr><td>Late May-early Jun</td><td>Melon</td><td>In-ground center</td><td>Direct sow or transplant once soil is reliably warm; 4 hills</td></tr>
   <tr><td>Late May</td><td>Potato</td><td>In-ground center</td><td>Plant seed pieces</td></tr>
   <tr><td>Late May</td><td>Bush Beans</td><td>Bean buckets (5)</td><td>Direct sow</td></tr>
+  <tr><td>Late May</td><td>Nasturtium</td><td>Nasturtium bucket</td><td>Direct sow after last frost, frost-tender</td></tr>
+  <tr><td>Late May</td><td>Marigold</td><td>Marigold bucket</td><td>Direct sow or transplant after last frost, frost-tender</td></tr>
 
   <tr class="section"><td colspan="4">Succession plantings (every 2-3 weeks through July)</td></tr>
   <tr><td>Jun-Jul</td><td>Radish</td><td>Bed 3a</td><td>Re-sow in harvested rows</td></tr>
-  <tr><td>Jun-Jul</td><td>Lettuce</td><td>Lettuce buckets (2)</td><td>Re-sow every 2-3 weeks; bolts in heat, so slows by midsummer</td></tr>
   <tr><td>Early-mid Jul</td><td>Bush Beans</td><td>Bed 3b</td><td>Sow after peas are pulled (succession)</td></tr>
 
   <tr class="section"><td colspan="4">Mid-to-late summer (July-August), for fall harvest</td></tr>
   <tr><td>Late Jul-Aug</td><td>Carrot / Beet (fast types)</td><td>Bed 3a</td><td>Second sowing in any open space</td></tr>
 
   <tr class="section"><td colspan="4">Fall (unique timing)</td></tr>
-  <tr><td>Mid-late Oct</td><td>Garlic</td><td>Asparagus bed edge</td><td>Plant cloves for harvest next July</td></tr>
+  <tr><td>Mid-late Oct</td><td>Garlic</td><td>Garlic plot</td><td>Plant cloves for harvest next July</td></tr>
 </table>
 
 <div class="note">
-Fitting 18 buckets in that 5×8 ft zone (40 sq ft) is snug — that's about 2.2 sq ft per bucket, tighter than the usual 3-4 sq ft you'd want for airflow and access. Consider a staggered/offset arrangement rather than a strict grid, or spread a few of the basil/pepper buckets along the walking path edge if it feels too crowded.
+Fitting 18 buckets in that 5×8 ft zone (40 sq ft) is snug — that's about 2.2 sq ft per bucket, tighter than the usual 3-4 sq ft you'd want for airflow and access. Consider a staggered/offset arrangement rather than a strict grid, or spread a few of the pepper/eggplant buckets along the walking path edge if it feels too crowded.
 </div>
 
 <div class="note">
 Watch for a possible late-May cold snap after transplanting tomatoes, peppers, and squash — keep row cover on hand for the tender stuff.
+</div>
+
+<div class="note">
+With garlic moved out to its own plot, the asparagus bed had room to grow: it now fits 10 crowns in 2 rows instead of 5 in 1. The trade-off is row spacing — 18 in between rows is tighter than the 3 ft commonly recommended for full-size commercial spacing, but it's a workable compromise for a small home bed. Asparagus is a 20+ year perennial planting, so it's worth deciding now whether the tighter spacing is acceptable long-term or whether 5 crowns with more breathing room is the safer bet.
 </div>
 
 
