@@ -88,17 +88,17 @@
     padding:2px;
     letter-spacing:0.01em;
   }
-  .bed1a{ grid-column:1/5;  grid-row:1/5;  background:var(--tomato); }
-  .bed1b{ grid-column:1/5;  grid-row:5/9;  background:var(--pepper); }
-  .bed2a{ grid-column:6/10; grid-row:1/5;  background:var(--cuke); }
-  .bed2b{ grid-column:6/10; grid-row:5/9;  background:var(--squash); }
-  .bed3a{ grid-column:11/15;grid-row:1/5;  background:var(--root); border:2px dashed var(--onion); }
-  .bed3b{ grid-column:11/15;grid-row:5/9;  background:var(--peabean); }
-  .buckets{ grid-column:16/21; grid-row:1/9; background:var(--bucket); }
-  .inground{ grid-column:1/14; grid-row:11/21; background:var(--inground); }
-  .asparagus{ grid-column:16/21; grid-row:10/14; background:var(--asparagus); }
-  .garlicplot{ grid-column:16/21; grid-row:15/17; background:var(--onion); }
-  .compost{ grid-column:16/21; grid-row:18/21; background:var(--compost); }
+  .bed1a{ grid-column:1/5;  grid-row:13/17;  background:var(--tomato); }
+  .bed1b{ grid-column:1/5;  grid-row:17/21;  background:var(--pepper); }
+  .bed2a{ grid-column:6/10; grid-row:13/17;  background:var(--cuke); }
+  .bed2b{ grid-column:6/10; grid-row:17/21;  background:var(--squash); }
+  .bed3a{ grid-column:11/15;grid-row:13/17;  background:var(--root); border:2px dashed var(--onion); }
+  .bed3b{ grid-column:11/15;grid-row:17/21;  background:var(--peabean); }
+  .buckets{ grid-column:16/21; grid-row:13/21; background:var(--bucket); }
+  .inground{ grid-column:8/21; grid-row:1/11; background:var(--inground); }
+  .asparagus{ grid-column:1/6; grid-row:1/5; background:var(--asparagus); }
+  .garlicplot{ grid-column:1/6; grid-row:6/8; background:var(--onion); }
+  .compost{ grid-column:1/6; grid-row:8/11; background:var(--compost); }
   .pathlabel{
     display:flex;
     align-items:center;
@@ -107,20 +107,21 @@
     color:#8a7d64;
     writing-mode:vertical-rl;
   }
-  .p1{ grid-column:5/6; grid-row:1/9; }
-  .p2{ grid-column:10/11;grid-row:1/9; }
-  .p3{ grid-column:1/21; grid-row:9/10; writing-mode:horizontal-tb; }
+  .p1{ grid-column:5/6; grid-row:13/21; }
+  .p2{ grid-column:10/11;grid-row:13/21; }
+  .p3{ grid-column:1/21; grid-row:11/13; writing-mode:horizontal-tb; }
+  .p4{ grid-column:6/8; grid-row:1/11; }
   .divider{
     background:var(--ink);
     opacity:0.35;
   }
-  .d1{ grid-column:1/5;  grid-row:5/6; }
-  .d2{ grid-column:6/10; grid-row:5/6; }
-  .d3{ grid-column:11/15;grid-row:5/6; }
+  .d1{ grid-column:1/5;  grid-row:17/18; }
+  .d2{ grid-column:6/10; grid-row:17/18; }
+  .d3{ grid-column:11/15;grid-row:17/18; }
   .door-marker{
     position:absolute;
     left:-6px;
-    top:40%;
+    top:50%;
     height:10%;
     width:14px;
     background:#e8b84b;
@@ -130,7 +131,7 @@
   .door-label{
     position:absolute;
     left:-64px;
-    top:calc(45% - 0.6em);
+    top:calc(55% - 0.6em);
     font-size:0.5rem;
     color:#e8b84b;
     font-weight:700;
@@ -281,7 +282,8 @@
     <div class="divider d3"></div>
     <div class="zone bed3b">PEAS → BEANS<br>4×4<br>16 peas / 12 beans</div>
     <div class="zone buckets">CONTAINERS<br>18 buckets<br>3 tomato · 4 pepper<br>5 bean · 1 eggplant · 1 green onion · 1 nasturtium · 2 kale · 1 marigold</div>
-    <div class="pathlabel p3">— walking path —</div>
+    <div class="pathlabel p3">— walking path (2 ft) —</div>
+    <div class="pathlabel p4">path (2 ft)</div>
     <div class="zone inground">IN-GROUND CENTER<br>Corn 32 · Pole Beans 16 · Pumpkin 1 · Melon 4 · Potato 16</div>
     <div class="zone asparagus">ASPARAGUS + STRAWBERRIES<br>10 crowns / 3 strawberry</div>
     <div class="zone garlicplot">GARLIC<br>5×2<br>14 cloves</div>
@@ -303,7 +305,7 @@
   <div><span class="swatch" style="background:var(--inground)"></span>In-ground center</div>
   <div><span class="swatch" style="background:var(--asparagus)"></span>Asparagus / strawberries</div>
   <div><span class="swatch" style="background:var(--onion)"></span>Garlic plot</div>
-  <div><span class="swatch" style="background:var(--compost)"></span>Compost bin (south edge)</div>
+  <div><span class="swatch" style="background:var(--compost)"></span>Compost bin (west edge, by door)</div>
 </div>
 
 
